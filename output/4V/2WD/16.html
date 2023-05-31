@@ -1,0 +1,472 @@
+<html><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+  <title>SUZUKI_SIOS010 メイン</title>
+  <link rel="stylesheet" href="./css/Common.css" charset="UTF-8" type="text/css">
+  <link rel="stylesheet" href="./css/Menu.css" charset="UTF-8" type="text/css">
+  <script async="" src="https://cdn.appdynamics.com/adrum-ext.206c403a1a532b310b15ea4509f4902b.js"></script><script type="text/javascript" language="JavaScript" src="./js/CommonMessages.js" charset="UTF-8"></script>
+  <script type="text/javascript" language="JavaScript" src="./js/common.js" charset="UTF-8"></script>
+  <script type="text/javascript" language="JavaScript" src="./js/s2/kumu.js"></script>
+  <script type="text/javascript" language="JavaScript" src="./js/s2/ajax.js"></script>
+  <script type="text/javascript" language="JavaScript" src="./js/s2/event.js"></script>
+  <script type="text/javascript" language="JavaScript" src="./js/sios010.js" charset="UTF-8"></script>
+  <script type="text/javascript" language="JavaScript" src="./js/sios010_2.js" charset="UTF-8"></script>
+  <script type="text/javascript" language="JavaScript" src="./js/sios030.js" charset="UTF-8"></script>
+  <!-- 2021/08/19 MDCR ADD START -->
+  <script type="text/javascript" language="JavaScript" src="./js/jquery.js" charset="utf-8"></script>
+  <script type="text/javascript" language="JavaScript" src="./js/jquery-ui.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="./css/jquery-ui.css" type="text/css">
+  <!-- 2021/08/19 MDCR ADD END -->
+  <!-- 2021/09/17 MDCR ADD START -->
+  <script type="text/javascript" language="JavaScript" src="./js/chromeHelper.js"></script>
+  <!-- 2021/09/17 MDCR ADD END -->
+</head>
+
+<body oncontextmenu="return false" onresize="windowResize();" onload="window.name='sios010_1';initMenu();resizeLoad();disableFormAction();setRcMark();setNumCheck(false);kensu_Blur();browserFix();if(!window.document.documentMode){document.getElementById('hinmei').style.width = '359px';document.getElementById('partNm_meisai').style.width = '359px';document.getElementById('div_footer').style.left = '10px';document.getElementById('tblSios010').style.width = '1305px';}renderInputField();if(!window.document.documentMode){document.getElementById('hinmei').style.width = '359px';}" style="margin: 0px; position: fixed;">
+<!--<body id="sios010Body" oncontextmenu="return false" onload="" onunload="childWinClose();">-->
+<form id="sios010Form" name="sios010Form" method="post" enctype="application/x-www-form-urlencoded" action="/sios/view/epc/sios010.html">
+<!-- 2021/08/10 MDCR MODIFY START -->
+<div style="position: absolute; width: 30px; height: 50px; left: 5px; top: 12px;" id="div_image"><img border="0" src="img/suzuki_top_logo.png" onclick="" width="28" style="" id="imgLogo" height="28">
+<!-- 2021/08/10 MDCR MODIFY END -->
+</div>
+<div style="position:absolute; width:950px; height:50px; left:35px; top:10px;" id="tbl_menu">
+	<table border="0" cellpadding="3" cellspacing="1" height="25">
+		<tbody><tr valign="top">
+			<td width="100">
+				<input onmouseout="menuButtonOut()" onclick="clearAllMenu();setActiveMenu('menu_div_file');showMenu();" id="btn_file" type="button" class="cmButton7" value="ファイル" onmouseover="menuButtonOver()">
+			</td>
+			<td width="100">
+				<input onmouseout="menuButtonOut()" onclick="clearAllMenu();setActiveMenu('menu_div_search');showMenu();" id="btn_search" type="button" class="cmButton7" value="検索" onmouseover="menuButtonOver()">
+			</td>
+			<td width="100">
+				<input onmouseout="menuButtonOut()" onclick="clearAllMenu();setActiveMenu('menu_div_other');showMenu();" id="btn_other" type="button" class="cmButton7" value="その他検索" onmouseover="menuButtonOver()">
+			</td>
+			<td width="100">
+				<input onmouseout="menuButtonOut()" onclick="clearAllMenu();setActiveMenu('menu_div_order');showMenu();" id="btn_order" type="button" class="cmButton7" value="発注・見積" onmouseover="menuButtonOver()">
+			</td>
+			<td width="100">
+				<input onmouseout="menuButtonOut()" onclick="clearAllMenu();setActiveMenu('menu_div_help');showMenu();" id="btn_help" type="button" class="cmButton7" value="ヘルプ" onmouseover="menuButtonOver()">
+			</td>			
+		</tr>
+	</tbody></table>
+</div>
+<div style="position:absolute; width:950px; height:50px; left:40px; top:38px; z-index:1; display:none;" id="menu_div_file">
+	<ul id="navmenu">
+		<li><a onclick="doOpenSios003()" href="#">車種一覧</a></li>
+		<li><a onclick="doOpenSios011()" href="#">別車種検索</a></li>
+		<li><a onclick="doOpenSios060($i('hidDispNo').value)" href="#">保存</a></li>
+		<li><a onclick="openSios061($i('hidDispNo').value)" href="#">開く</a></li>
+		<li><a onclick="openSios062($i('hidDispNo').value)" href="#">メモ機能</a></li>
+		<!-- 2021/08/26 MDCR MODIFY START -->
+		<li><a href="#">数量をチェックする</a>
+			<ul>
+				<li><a onclick="setNumCheck(true)" style="font-family: &quot;ＭＳ Ｐゴシック&quot;; cursor: pointer;" href="#" id="numCheckOn">&nbsp;&nbsp;&nbsp;ON</a></li>
+				<li><a onclick="setNumCheck(false)" style="font-family: &quot;ＭＳ Ｐゴシック&quot;; cursor: default;" href="#" id="numCheckOff">→OFF</a></li>
+			</ul>
+		</li>
+		<!-- 2021/08/26 MDCR MODIFY END -->
+	</ul>
+	<input id="numCheck" type="hidden" value="false">
+</div>
+<div style="position:absolute; width:950px; height:50px; left:147px; top:38px; z-index:1; display:none;" id="menu_div_search">
+	<ul id="navmenu">
+		<li><a onclick="openWinGroup(1)" href="#">絵目次</a></li>
+		<li><a onclick="openFIG()" href="#" class="figInput">FIG-NO入力</a></li>
+		<li><a onclick="doOpenSios030('goSios030')" href="#">品名検索</a></li>
+	</ul>
+</div>
+<div style="position:absolute; width:950px; height:50px; left:254px; top:38px; z-index:1; display:none;" id="menu_div_other">
+	<ul id="navmenu">
+		<li><a onclick="doOpenSios030('goSios033')" href="#">リペア部品検索</a></li>
+		<li><a onclick="doOpenSios030('goSios031')" href="#">車検・定検部品検索</a></li>
+		<li><a onclick="doOpenSios030('goSios032')" href="#">事故見積</a></li>
+	</ul>
+</div>
+<div style="position:absolute; width:950px; height:50px; left:361px; top:38px; z-index:1; display:none;" id="menu_div_order">
+	<ul id="navmenu">
+		<li>
+			<a id="uoe010" href="#" onclick="$i('hacchuFlg').value='true';$i('goSios001').click();if(!window.document.documentMode){logoutCloseWindow();}">発注</a>
+			<input type="submit" id="doHacchu" name="sios010Form:doHacchu" style="display:none;">
+		</li>
+		<li>
+			<a id="uoe030" href="#" onclick="funcMitu();">見積・在庫照会</a>
+			<input type="submit" id="doMitu" name="sios010Form:doMitu" style="display:none;">
+		</li>
+		<li>
+			<a id="uoe050" href="#" onclick="funcKaito();">発注・回答</a>
+			<input type="submit" id="doKaito" name="sios010Form:doKaito" style="display:none;">
+		</li>
+		<li>
+			<a id="orderPkg" href="#" onclick="onMenuOrderPKG();">他システム連動</a>
+			<input type="submit" id="doOrderPkg" name="sios010Form:doOrderPkg" style="display: none;">
+		</li>
+		<!-- 2013/03/11 ADD START -->
+		<li>
+			<a id="eacsLogin" href="#" onclick="alert('本機能は利用できません。')">アクセサリ</a>
+		</li>
+		<!-- 2013/03/11 ADD END -->
+	</ul>
+</div>
+
+<div style="position:absolute; width:950px; height:50px; left:468px; top:38px; z-index:1; display:none;" id="menu_div_help">
+	<ul id="navmenu">
+		<li><a onclick="onMenuHelpGuide()" href="#">カタログガイド</a></li>
+		<li><a onclick="onMenuHelpHelp()" href="#">ヘルプ</a></li>
+	</ul>
+</div>
+<!-- 2021/08/10 MDCR MODIFY START -->
+<div style="position: absolute; width: 260px; height: 50px; left: 760px; top: 10px;" id="div_portal_Menu">
+<!-- 2021/08/10 MDCR MODIFY END -->
+<table border="0" cellpadding="3" cellspacing="1" height="45">
+  <tbody>
+  	<tr>
+  	<td colspan="2" width="260" align="left">
+  		<!-- 2022/01/13 MDCR MODIFY START -->	
+		 <button id="btnPortalMenu" class="cmButton10" style="visibility: hidden;" onclick="openPotal();">総合メニューへ戻る</button> 
+		<!-- 2022/01/13 MDCR MODIFY END -->
+		<!-- <a href="#" onclick="if(event.shiftKey == true){event.returnValue = false;};$i('doLogout').click();"><font size="-1">ログアウト</font></a> -->
+		<!-- 2021.08.04 MDCR MODIFY START -->
+		<a onclick="if(event.shiftKey == true){event.returnValue = false;};openLogoutProc();" href="#" id="btnLogOut"><font size="-1">ログアウト</font></a>
+		<!-- 2021.08.04 MDCR MODIFY END -->
+	</td>
+  	</tr>
+    <tr>
+      <td width="100">
+      <input onclick="openSios011(0,document.getElementById('hidDispNo').value)" id="btn_detail" type="button" class="cmButton7" value="車種情報">
+      </td>
+      <td width="160">
+      <input onclick="doClearSios010()" id="btn_clear" type="button" class="cmButton7" value="画面クリア">
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<!-- 2021/08/10 MDCR MODIFY START -->
+<div style="position: absolute; width: 710px; height: 50px; left: 10px; top: 50px;" id="div_body_no">
+<!-- 2021/08/10 MDCR MODIFY END -->
+<table border="0" bgcolor="#666666" cellpadding="1" cellspacing="1" class="BDR_TR0L_1111" height="15">
+  <tbody>
+    <tr class="TitleCellA">
+      <td width="97" align="center" class="TitleCell">車台番号</td>
+<!--  <td width="100"><span id="vintypeCd" style="display:none;">MF21S</span></td>
+      <td width="70"><span id="vintypeNo" style="display:none;">505658</span></td> -->
+      <td width="163"><span id="exportVin"></span>
+		<!-- 2017/03/23 リコール赤マル表示 -->
+		<!--2019/09/13 MOD STR -->
+<!--      	<span id="RC_MARC" style="color:#FF0000;vertical-align:bottom;">&#160;</span> -->
+        <span onclick="setActionNo()" style="color:#FF0000;vertical-align: bottom;cursor:pointer;" id="RC_MARC"></span>
+        <!--2019/09/13 MOD END -->
+      </td>
+      <td width="60" align="center" class="TitleCell">車体色</td>
+      <td width="30"><span id="bodyCol"></span></td>
+      <td width="100" align="center" class="TitleCell">カタログ機種</td>
+      <!-- 2021/11/08 MDCR MODIFY START -->
+      <td width="80"><input type="text" id="kisyuCd" name="sios010Form:kisyuCd" value="MH23S" readonly="readonly" style="border-width:0px;height:15px;outline:none;"></td>
+      <!-- 2021/11/08 MDCR MODIFY END -->
+      <!--<td width="80"><span id="kisyuCd" /></td>-->
+      <!-- 2021/08/02 MDCR MODIFY START -->
+      <!-- width="60"の代わりに width="70" を変更する -->
+      <td width="70" align="center" class="TitleCell">型式類別</td>
+      <!-- 2021/08/02 MDCR MODIFY END -->
+      <td width="50"><span id="rubetCd1">16169</span></td>
+      <td width="40"><span id="rubetCd2">0001</span></td>
+    </tr>
+  </tbody>
+</table>
+<input type="hidden" id="sharyoCd" name="sios010Form:sharyoCd" value=""><input type="hidden" id="hojyoCd" name="sios010Form:hojyoCd" value="WFXF"><input type="hidden" id="seisanYm" name="sios010Form:seisanYm" value=""><input type="hidden" id="trimCol" name="sios010Form:trimCol" value=""><input type="hidden" id="yoso1Nm" name="sios010Form:yoso1Nm" value="エンジン"><input type="hidden" id="yoso2Nm" name="sios010Form:yoso2Nm" value="駆動"><input type="hidden" id="yoso3Nm" name="sios010Form:yoso3Nm" value="ミッション"><input type="hidden" id="yoso4Nm" name="sios010Form:yoso4Nm" value="ＡＢＳ"><input type="hidden" id="yoso5Nm" name="sios010Form:yoso5Nm" value="ディスチャージ"><input type="hidden" id="yoso6Nm" name="sios010Form:yoso6Nm" value="略称"><input type="hidden" id="yoso7Nm" name="sios010Form:yoso7Nm" value="チューナー"><input type="hidden" id="yoso8Nm" name="sios010Form:yoso8Nm" value=""><input type="hidden" id="yoso9Nm" name="sios010Form:yoso9Nm" value=""><input type="hidden" id="yoso10Nm" name="sios010Form:yoso10Nm" value=""><input type="hidden" id="yoso11Nm" name="sios010Form:yoso11Nm" value=""><input type="hidden" id="yoso12Nm" name="sios010Form:yoso12Nm" value=""><input type="hidden" id="yoso13Nm" name="sios010Form:yoso13Nm" value=""><input type="hidden" id="yoso14Nm" name="sios010Form:yoso14Nm" value=""><input type="hidden" id="yoso15Nm" name="sios010Form:yoso15Nm" value=""><input type="hidden" id="yoso16Nm" name="sios010Form:yoso16Nm" value=""><input type="hidden" id="yoso17Nm" name="sios010Form:yoso17Nm" value=""><input type="hidden" id="yoso18Nm" name="sios010Form:yoso18Nm" value=""><input type="hidden" id="yoso19Nm" name="sios010Form:yoso19Nm" value=""><input type="hidden" id="yoso20Nm" name="sios010Form:yoso20Nm" value=""><input type="hidden" id="yoso1Cd" name="sios010Form:yoso1Cd" value="4V"><input type="hidden" id="yoso2Cd" name="sios010Form:yoso2Cd" value="2WD"><input type="hidden" id="yoso3Cd" name="sios010Form:yoso3Cd" value="MT"><input type="hidden" id="yoso4Cd" name="sios010Form:yoso4Cd" value="NABS"><input type="hidden" id="yoso5Cd" name="sios010Form:yoso5Cd" value="NDISCH"><input type="hidden" id="yoso6Cd" name="sios010Form:yoso6Cd" value="FX"><input type="hidden" id="yoso7Cd" name="sios010Form:yoso7Cd" value="TUNER"><input type="hidden" id="yoso8Cd" name="sios010Form:yoso8Cd" value=""><input type="hidden" id="yoso9Cd" name="sios010Form:yoso9Cd" value=""><input type="hidden" id="yoso10Cd" name="sios010Form:yoso10Cd" value=""><input type="hidden" id="yoso11Cd" name="sios010Form:yoso11Cd" value=""><input type="hidden" id="yoso12Cd" name="sios010Form:yoso12Cd" value=""><input type="hidden" id="yoso13Cd" name="sios010Form:yoso13Cd" value=""><input type="hidden" id="yoso14Cd" name="sios010Form:yoso14Cd" value=""><input type="hidden" id="yoso15Cd" name="sios010Form:yoso15Cd" value=""><input type="hidden" id="yoso16Cd" name="sios010Form:yoso16Cd" value=""><input type="hidden" id="yoso17Cd" name="sios010Form:yoso17Cd" value=""><input type="hidden" id="yoso18Cd" name="sios010Form:yoso18Cd" value=""><input type="hidden" id="yoso19Cd" name="sios010Form:yoso19Cd" value=""><input type="hidden" id="yoso20Cd" name="sios010Form:yoso20Cd" value="">
+<!-- 2017/03/23 リコール赤マル表示 Start -->
+<input type="hidden" id="rcStatusKbn" name="sios010Form:rcStatusKbn" value="">
+<input type="hidden" id="rcIdNoHead" name="sios010Form:rcIdNoHead" value="">
+<!-- 2017/03/23 リコール赤マル表示 End -->
+</div>
+<!-- 2021/08/10 MDCR MODIFY START -->
+<div style="position: absolute; width: 900px; height: 50px; left: 10px; top: 85px;" id="div_part_no">
+<!-- 2021/08/10 MDCR MODIFY END -->
+<table bgcolor="#666666" cellspacing="1">
+  <tbody>
+    <tr align="center">
+      <td bgcolor="#b0c4de" style="height:25px;width:90px;"><font size="-1">部品番号</font></td>
+      <td bgcolor="#ffffff" style="height:25px;width:500px;"><input type="text" id="inPartNo" name="sios010Form:inPartNo" value="" onchange="this.value=fullToHalf(this.value);" style="width:498px;text-transform: uppercase;"></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<!-- 2021/08/10 MDCR MODIFY START -->
+<div style="position: absolute; width: 200px; height: 50px; left: 610px; top: 82px;" id="div_add_part">
+<!-- 2021/08/10 MDCR MODIFY END -->
+<table border="0" cellpadding="3" cellspacing="1" height="25">
+  <tbody>
+    <tr>
+      <td width="100">
+      <input onclick="addParts()" id="btn_add" type="button" class="cmButton7" value="追加"><input type="submit" id="doAddPart" name="sios010Form:doAddPart" value="追加" style="display:none"></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div id="div_header_scrollbar" style="width: 980px; height: 493px; visibility: visible;">
+<div id="div_header" style="position: absolute; width: 980px; height: 50px; left: 10px; top: 120px; overflow: hidden; visibility: visible;">
+<!-- 2021.09.30 MDCR MODIFY START -->
+<table border="0" bgcolor="#666666" cellpadding="1" cellspacing="1" id="tbl_Meisai" class="BDR_TR0L_1111" height="20" style="width: 1305px;">
+<!-- 2021.09.30 MDCR MODIFY END -->
+  <tbody>
+    <tr align="center" class="TitleCell">
+      <td nowrap="" width="30px">削除</td>
+      <td nowrap="" width="122px">品番</td>
+      <td nowrap="" width="45px">特記</td>
+      <td nowrap="" width="120px">統一先品番</td>
+      
+      <td nowrap="" width="40px">FIG</td>
+      <td nowrap="" width="35px">Ref</td>
+      
+      <!-- 2021/11/02 MDCR MODIFY START -->
+      <td nowrap="" width="379px" id="hinmei" style="width: 359px;">品名</td>
+      <!-- 2021/11/02 MDCR MODIFY END -->
+      <td nowrap="" width="60px">注文数量</td>
+      <td nowrap="" width="98px">希望小売価格</td>
+      <td nowrap="" width="40px">個数</td>
+      <!-- 2021.09.30 MDCR MODIFY START -->
+      <td nowrap="" width="60px" style="padding:2px;">互換</td>
+      <!-- 2021.09.30 MDCR MODIFY END -->
+      <td nowrap="" width="70px">標時選択</td>
+      <td nowrap="" width="102px">標準作業時間</td>
+      <td nowrap="" width="40px">流区</td>
+      <td nowrap="" width="35.8px">販路</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div id="div_footer" onscroll="document.all.div_header.scrollLeft=this.scrollLeft;" style="position: absolute; width: 980px; top: 142px; height: 452px; overflow: auto; visibility: visible; left: 10px;">
+<!-- 2021.08.04 MDCR MODIFY START -->
+<table border="0" bgcolor="#666666" slcolor="#ffffcc" hlcolor="#ffff99" cellpadding="1" cellspacing="1" style="width: 1305px;" id="tblSios010" class="BDR_TR0L_1111">
+<!-- 2021.08.04 MDCR MODIFY END -->
+  <tbody>
+    <tr class="TitleCellA" height="24">
+      <td nowrap="" width="30px" align="center"><input type="checkbox" id="del" name="sios010Form:sios010Items:0:del" value="true" tabindex="-1"></td>
+      <!-- 2021.08.10 MDCR MODIFY START -->
+      <td nowrap="" width="122px" style="vertical-align:bottom;"><input type="text" id="partNo" name="sios010Form:sios010Items:0:partNo" value="15730-85K00" class="cmText" readonly="readonly" tabindex="-1" style="vertical-align: middle; border: 0px; height: 25px; width: 120px; outline: none;"></td>
+      <!-- 2021.08.10 MDCR MODIFY END -->
+      <td nowrap="" width="45px" align="center"><div id="isDispTokki" style="float:left;"><img id="tokkiIcon" src="./img/caution-blue.png" height="15" onclick="openSios040('0',1)"></div>
+      </td>
+      <td nowrap="" width="120px"><span id="generalPtsNo"></span></td>
+
+      <td nowrap="" width="40px" align="center"><span id="figNo">157</span><span id="figSai">A </span></td>
+      <td nowrap="" width="35px"><span id="refNo" style="padding-left:5px;">1</span></td>
+      
+      
+      <!-- 2021/11/02 MDCR MODIFY START -->
+      <td nowrap="" style="vertical-align: bottom; width: 359px;" id="partNm_meisai"><input type="text" id="partNm" name="sios010Form:sios010Items:0:partNm" value="パイプ,デリバリ" class="cmText" readonly="readonly" tabindex="-1" style="vertical-align: middle; width: 340px; border-width: 0px; height: 25px; outline: none;"></td>
+      <!-- 2021/11/02 MDCR MODIFY END -->
+      <!-- 2021/12/07 MDCR MODIFY START -->
+      <td nowrap="" width="60px" align="center"><input type="tel" id="kensu" name="sios010Form:sios010Items:0:kensu" value="1" onfocus="this.select();" onkeydown="return numOnly()" maxlength="3" onchange="checkKensu(0);" onkeypress="return numOnly()" style="text-align: right;ime-mode:disabled;width:50px;height:20px; ">
+      <!-- 2021/12/07 MDCR MODIFY END -->
+      <input type="hidden" id="kensu-hidden" name="sios010Form:sios010Items:0:kensu-hidden" value="1"></td>
+      <td nowrap="" width="98px" align="right"><span id="price">6,400</span></td>
+      <td nowrap="" width="40px" align="right"><span id="dataCnt">1</span><input type="hidden" id="calcCnt" name="sios010Form:sios010Items:0:calcCnt" value="1"></td>
+      
+      <td nowrap="" width="27px"><span id="compatiCd"></span></td>
+      <td nowrap="" width="32px" align="center"></td>
+      
+      <td nowrap="" width="70px" align="center"></td>
+      <td nowrap="" width="102px"><span id="frs1Dsc">　</span><input type="hidden" id="subNo" name="sios010Form:sios010Items:0:subNo" value="  "></td>
+      <td nowrap="" width="40px"><span id="ryuuKu">3</span><input type="hidden" id="parentFlg" name="sios010Form:sios010Items:0:parentFlg" value="1"></td>
+      <td nowrap="" width="35.8px"><span id="saleKbn">1</span></td>
+    </tr>
+    <tr class="TitleCellA" height="24">
+      <td nowrap="" width="30px" align="center"><input type="checkbox" id="del" name="sios010Form:sios010Items:1:del" value="true" tabindex="-1"></td>
+      <!-- 2021.08.10 MDCR MODIFY START -->
+      <td nowrap="" width="122px" style="vertical-align:bottom;"><input type="text" id="partNo" name="sios010Form:sios010Items:1:partNo" value="01550-0616A" class="cmText" readonly="readonly" tabindex="-1" style="vertical-align: middle; border: 0px; height: 25px; width: 120px; outline: none;"></td>
+      <!-- 2021.08.10 MDCR MODIFY END -->
+      <td nowrap="" width="45px" align="center"><div id="isDispTokki" style="float:left;"><img id="tokkiIcon" src="./img/caution-blue.png" height="15" onclick="openSios040('1',1)"></div>
+      </td>
+      <td nowrap="" width="120px"><span id="generalPtsNo"></span></td>
+
+      <td nowrap="" width="40px" align="center"><span id="figNo">157</span><span id="figSai">A </span></td>
+      <td nowrap="" width="35px"><span id="refNo" style="padding-left:5px;">2</span></td>
+      
+      
+      <!-- 2021/11/02 MDCR MODIFY START -->
+      <td nowrap="" style="vertical-align:bottom;width=379px;" id="partNm_meisai"><input type="text" id="partNm" name="sios010Form:sios010Items:1:partNm" value="ボルト" class="cmText" readonly="readonly" tabindex="-1" style="vertical-align: middle; width: 340px; border-width: 0px; height: 25px; outline: none;"></td>
+      <!-- 2021/11/02 MDCR MODIFY END -->
+      <!-- 2021/12/07 MDCR MODIFY START -->
+      <td nowrap="" width="60px" align="center"><input type="tel" id="kensu" name="sios010Form:sios010Items:1:kensu" value="1" onfocus="this.select();" onkeydown="return numOnly()" maxlength="3" onchange="checkKensu(1);" onkeypress="return numOnly()" style="text-align: right;ime-mode:disabled;width:50px;height:20px; ">
+      <!-- 2021/12/07 MDCR MODIFY END -->
+      <input type="hidden" id="kensu-hidden" name="sios010Form:sios010Items:1:kensu-hidden" value="1"></td>
+      <td nowrap="" width="98px" align="right"><span id="price">50</span></td>
+      <td nowrap="" width="40px" align="right"><span id="dataCnt">2</span><input type="hidden" id="calcCnt" name="sios010Form:sios010Items:1:calcCnt" value="2"></td>
+      
+      <td nowrap="" width="27px"><span id="compatiCd"></span></td>
+      <td nowrap="" width="32px" align="center"></td>
+      
+      <td nowrap="" width="70px" align="center"></td>
+      <td nowrap="" width="102px"><span id="frs1Dsc">　</span><input type="hidden" id="subNo" name="sios010Form:sios010Items:1:subNo" value="  "></td>
+      <td nowrap="" width="40px"><span id="ryuuKu">1</span><input type="hidden" id="parentFlg" name="sios010Form:sios010Items:1:parentFlg" value="1"></td>
+      <td nowrap="" width="35.8px"><span id="saleKbn">3</span></td>
+    </tr>
+    <tr class="TitleCellA" height="24">
+      <td nowrap="" width="30px" align="center"><input type="checkbox" id="del" name="sios010Form:sios010Items:2:del" value="true" tabindex="-1"></td>
+      <!-- 2021.08.10 MDCR MODIFY START -->
+      <td nowrap="" width="122px" style="vertical-align:bottom;"><input type="text" id="partNo" name="sios010Form:sios010Items:2:partNo" value="15710-85K00" class="cmText" readonly="readonly" tabindex="-1" style="vertical-align: middle; border: 0px; height: 25px; width: 120px; outline: none;"></td>
+      <!-- 2021.08.10 MDCR MODIFY END -->
+      <td nowrap="" width="45px" align="center"><div id="isDispTokki" style="float:left;"><img id="tokkiIcon" src="./img/caution-blue.png" height="15" onclick="openSios040('2',1)"></div>
+      </td>
+      <td nowrap="" width="120px"><span id="generalPtsNo"></span></td>
+
+      <td nowrap="" width="40px" align="center"><span id="figNo">157</span><span id="figSai">A </span></td>
+      <td nowrap="" width="35px"><span id="refNo" style="padding-left:5px;">3</span></td>
+      
+      
+      <!-- 2021/11/02 MDCR MODIFY START -->
+      <td nowrap="" style="vertical-align:bottom;width=379px;" id="partNm_meisai"><input type="text" id="partNm" name="sios010Form:sios010Items:2:partNm" value="インジェクタアッシ,フューエル" class="cmText" readonly="readonly" tabindex="-1" style="vertical-align: middle; width: 340px; border-width: 0px; height: 25px; outline: none;"></td>
+      <!-- 2021/11/02 MDCR MODIFY END -->
+      <!-- 2021/12/07 MDCR MODIFY START -->
+      <td nowrap="" width="60px" align="center"><input type="tel" id="kensu" name="sios010Form:sios010Items:2:kensu" value="1" onfocus="this.select();" onkeydown="return numOnly()" maxlength="3" onchange="checkKensu(2);" onkeypress="return numOnly()" style="text-align: right;ime-mode:disabled;width:50px;height:20px; ">
+      <!-- 2021/12/07 MDCR MODIFY END -->
+      <input type="hidden" id="kensu-hidden" name="sios010Form:sios010Items:2:kensu-hidden" value="1"></td>
+      <td nowrap="" width="98px" align="right"><span id="price">9,550</span></td>
+      <td nowrap="" width="40px" align="right"><span id="dataCnt">3</span><input type="hidden" id="calcCnt" name="sios010Form:sios010Items:2:calcCnt" value="3"></td>
+      
+      <td nowrap="" width="27px"><span id="compatiCd"></span></td>
+      <td nowrap="" width="32px" align="center"></td>
+      
+      <td nowrap="" width="70px" align="center"></td>
+      <td nowrap="" width="102px"><span id="frs1Dsc">　</span><input type="hidden" id="subNo" name="sios010Form:sios010Items:2:subNo" value="  "></td>
+      <td nowrap="" width="40px"><span id="ryuuKu">1</span><input type="hidden" id="parentFlg" name="sios010Form:sios010Items:2:parentFlg" value="1"></td>
+      <td nowrap="" width="35.8px"><span id="saleKbn">3</span></td>
+    </tr>
+    <tr class="TitleCellA" height="24">
+      <td nowrap="" width="30px" align="center"><input type="checkbox" id="del" name="sios010Form:sios010Items:3:del" value="true" tabindex="-1"></td>
+      <!-- 2021.08.10 MDCR MODIFY START -->
+      <td nowrap="" width="122px" style="vertical-align:bottom;"><input type="text" id="partNo" name="sios010Form:sios010Items:3:partNo" value="15716-65DT0" class="cmText" readonly="readonly" tabindex="-1" style="vertical-align: middle; border: 0px; height: 25px; width: 120px; outline: none;"></td>
+      <!-- 2021.08.10 MDCR MODIFY END -->
+      <td nowrap="" width="45px" align="center"><div id="isDispTokki" style="float:left;"><img id="tokkiIcon" src="./img/caution-blue.png" height="15" onclick="openSios040('3',1)"></div>
+      </td>
+      <td nowrap="" width="120px"><span id="generalPtsNo"></span></td>
+
+      <td nowrap="" width="40px" align="center"><span id="figNo">157</span><span id="figSai">A </span></td>
+      <td nowrap="" width="35px"><span id="refNo" style="padding-left:5px;">4</span></td>
+      
+      
+      <!-- 2021/11/02 MDCR MODIFY START -->
+      <td nowrap="" style="vertical-align:bottom;width=379px;" id="partNm_meisai"><input type="text" id="partNm" name="sios010Form:sios010Items:3:partNm" value="グロメットセット,フューエルインジェクタ" class="cmText" readonly="readonly" tabindex="-1" style="vertical-align: middle; width: 340px; border-width: 0px; height: 25px; outline: none;"></td>
+      <!-- 2021/11/02 MDCR MODIFY END -->
+      <!-- 2021/12/07 MDCR MODIFY START -->
+      <td nowrap="" width="60px" align="center"><input type="tel" id="kensu" name="sios010Form:sios010Items:3:kensu" value="1" onfocus="this.select();" onkeydown="return numOnly()" maxlength="3" onchange="checkKensu(3);" onkeypress="return numOnly()" style="text-align: right;ime-mode:disabled;width:50px;height:20px; ">
+      <!-- 2021/12/07 MDCR MODIFY END -->
+      <input type="hidden" id="kensu-hidden" name="sios010Form:sios010Items:3:kensu-hidden" value="1"></td>
+      <td nowrap="" width="98px" align="right"><span id="price">540</span></td>
+      <td nowrap="" width="40px" align="right"><span id="dataCnt">3</span><input type="hidden" id="calcCnt" name="sios010Form:sios010Items:3:calcCnt" value="3"></td>
+      
+      <td nowrap="" width="27px"><span id="compatiCd"></span></td>
+      <td nowrap="" width="32px" align="center"></td>
+      
+      <td nowrap="" width="70px" align="center"></td>
+      <td nowrap="" width="102px"><span id="frs1Dsc">　</span><input type="hidden" id="subNo" name="sios010Form:sios010Items:3:subNo" value="  "></td>
+      <td nowrap="" width="40px"><span id="ryuuKu">1</span><input type="hidden" id="parentFlg" name="sios010Form:sios010Items:3:parentFlg" value="1"></td>
+      <td nowrap="" width="35.8px"><span id="saleKbn">3</span></td>
+    </tr>
+    <tr class="TitleCellA" height="24">
+      <td nowrap="" width="30px" align="center"><input type="checkbox" id="del" name="sios010Form:sios010Items:4:del" value="true" tabindex="-1"></td>
+      <!-- 2021.08.10 MDCR MODIFY START -->
+      <td nowrap="" width="122px" style="vertical-align:bottom;"><input type="text" id="partNo" name="sios010Form:sios010Items:4:partNo" value="09320-08062" class="cmText" readonly="readonly" tabindex="-1" style="vertical-align: middle; border: 0px; height: 25px; width: 120px; outline: none;"></td>
+      <!-- 2021.08.10 MDCR MODIFY END -->
+      <td nowrap="" width="45px" align="center"><div id="isDispTokki" style="float:left;"><img id="tokkiIcon" src="./img/caution-blue.png" height="15" onclick="openSios040('4',1)"></div>
+      </td>
+      <td nowrap="" width="120px"><span id="generalPtsNo"></span></td>
+
+      <td nowrap="" width="40px" align="center"><span id="figNo">157</span><span id="figSai">A </span></td>
+      <td nowrap="" width="35px"><span id="refNo" style="padding-left:5px;">5</span></td>
+      
+      
+      <!-- 2021/11/02 MDCR MODIFY START -->
+      <td nowrap="" style="vertical-align:bottom;width=379px;" id="partNm_meisai"><input type="text" id="partNm" name="sios010Form:sios010Items:4:partNm" value="クッション" class="cmText" readonly="readonly" tabindex="-1" style="vertical-align: middle; width: 340px; border-width: 0px; height: 25px; outline: none;"></td>
+      <!-- 2021/11/02 MDCR MODIFY END -->
+      <!-- 2021/12/07 MDCR MODIFY START -->
+      <td nowrap="" width="60px" align="center"><input type="tel" id="kensu" name="sios010Form:sios010Items:4:kensu" value="1" onfocus="this.select();" onkeydown="return numOnly()" maxlength="3" onchange="checkKensu(4);" onkeypress="return numOnly()" style="text-align: right;ime-mode:disabled;width:50px;height:20px; ">
+      <!-- 2021/12/07 MDCR MODIFY END -->
+      <input type="hidden" id="kensu-hidden" name="sios010Form:sios010Items:4:kensu-hidden" value="1"></td>
+      <td nowrap="" width="98px" align="right"><span id="price">270</span></td>
+      <td nowrap="" width="40px" align="right"><span id="dataCnt">3</span><input type="hidden" id="calcCnt" name="sios010Form:sios010Items:4:calcCnt" value="3"></td>
+      
+      <td nowrap="" width="27px"><span id="compatiCd"></span></td>
+      <td nowrap="" width="32px" align="center"></td>
+      
+      <td nowrap="" width="70px" align="center"></td>
+      <td nowrap="" width="102px"><span id="frs1Dsc">　</span><input type="hidden" id="subNo" name="sios010Form:sios010Items:4:subNo" value="  "></td>
+      <td nowrap="" width="40px"><span id="ryuuKu">1</span><input type="hidden" id="parentFlg" name="sios010Form:sios010Items:4:parentFlg" value="1"></td>
+      <td nowrap="" width="35.8px"><span id="saleKbn">3</span></td>
+    </tr>
+    
+  </tbody>
+</table>
+</div>
+</div>
+<div style="position: absolute; width: 500px; height: 20px; left: 5px; top: 619px; visibility: visible;" id="div_btn_delete">
+<table border="0" cellpadding="1" cellspacing="0" height="15">
+  <tbody>
+    <tr>
+      <td width="105"><input onclick="deleteParts(this.form)" id="btn_select_delete" type="button" class="cmButton7" value="選択部品削除"><input type="submit" id="doDelete" name="sios010Form:doDelete" value="選択部品削除" style="display:none"></td>
+      <td width="105"><input onclick="deleteAllParts()" id="btn_all_delete" type="button" class="cmButton7" value="全部品削除"><input type="submit" id="doDeleteAll" name="sios010Form:doDeleteAll" value="全部品削除" style="display:none"></td>
+      <td width="105"><input onclick="openEpcpr010()" id="btn_print" type="button" class="cmButton7" value="印刷"></td>
+      <td width="105"><input id="btn_memo" type="button" class="cmButton7" value="この車種のメモ" onclick="openSios063($i('hidDispNo').value)" style="display:none;"></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div style="position: absolute; width: 300px; height: 20px; left: 680px; top: 619px; visibility: visible;" id="div_total">
+<table border="0" bgcolor="#666666" cellpadding="1" cellspacing="1" class="BDR_TR0L_1111" height="15">
+  <tbody>
+    <tr>
+      <td width="70" align="center" class="TitleCell">部品件数</td>
+      <td width="50" align="right" class="TitleCellA"><span id="partsCnt">5</span></td>
+      <td width="70" align="center" class="TitleCell">合計金額</td>
+      <td width="80" align="right" class="TitleCellA"><span id="totalPrice" class="cmCellValue cmCellMoneyNormal">16,810</span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<input type="hidden" id="hozonYmd" name="sios010Form:hozonYmd" value=""><input type="hidden" id="sakuseiYmdHidden" name="sios010Form:sakuseiYmdHidden" value=""><input type="hidden" id="tenpoCd" name="sios010Form:tenpoCd" value="W0063768"><input type="hidden" id="tenpoId" name="sios010Form:tenpoId" value="EBW0063768H">
+<input type="hidden" id="sios010ItemsSave" name="sios010Form:sios010ItemsSave" value="rO0ABXVyABZbTHNpb3MuYmVhbi5QYXJ0c0luZm87bzFSq9h5vC4CAAB4cAAAAAVzcgATc2lvcy5iZWFuLlBhcnRzSW5mbwAAAAAAAAABAgAiTAAKYW5tZW1vSWNvbnQAEkxqYXZhL2xhbmcvU3RyaW5nO0wADGFubWVtb0lkTGlzdHEAfgADTAAHY2FsY0NudHEAfgADTAAJY29tcGF0aUNkcQB+AANMAAhjdXJQcmljZXQAFkxqYXZhL21hdGgvQmlnRGVjaW1hbDtMAAdkYXRhQ250cQB+AANMAANkZWx0ABNMamF2YS9sYW5nL0Jvb2xlYW47TAAFZmlnTm9xAH4AA0wABWZpZ1BncQB+AANMAAZmaWdTYWlxAH4AA0wAB2ZyczFEc2NxAH4AA0wAB2Zyc0ljb25xAH4AA0wADGdlbmVyYWxQdHNOb3EAfgADTAAIaGFpc2hpWW1xAH4AA0wABWtlbnN1cQB+AARMAAlraXJpa2FlQ2RxAH4AA0wAB2tpc3l1Q2RxAH4AA0wAC25ld0N1clByaWNlcQB+AARMAAtuZXdQYXJ0SWNvbnEAfgADTAAJcGFyZW50RmxncQB+AANMAAZwYXJ0Tm1xAH4AA0wABnBhcnROb3EAfgADTAAFcHJpY2VxAH4ABEwABXJlZk5vcQB+AANMAAdydWJldENkcQB+AANMAAZyeXV1S3VxAH4AA0wAB3NhaXlvWW1xAH4AA0wAB3NhbGVLYm5xAH4AA0wABXN1Yk5vcQB+AANMAAt0ZWtpeW91U3BlY3EAfgADTAAIdG9ra2lEc2NxAH4AA0wACXRva2tpSWNvbnEAfgADTAAJdmludHlwZUNkcQB+AANMAAl2aW50eXBlTm9xAH4AA3hwdAABMHQAAHQAATF0AABzcgAUamF2YS5tYXRoLkJpZ0RlY2ltYWxUxxVX+YEoTwMAAkkABXNjYWxlTAAGaW50VmFsdAAWTGphdmEvbWF0aC9CaWdJbnRlZ2VyO3hyABBqYXZhLmxhbmcuTnVtYmVyhqyVHQuU4IsCAAB4cAAAAABzcgAUamF2YS5tYXRoLkJpZ0ludGVnZXKM/J8fqTv7HQMABkkACGJpdENvdW50SQAJYml0TGVuZ3RoSQATZmlyc3ROb256ZXJvQnl0ZU51bUkADGxvd2VzdFNldEJpdEkABnNpZ251bVsACW1hZ25pdHVkZXQAAltCeHEAfgANAAAAAwAAAA0AAAAAAAAACAAAAAF1cgACW0Ks8xf4BghU4AIAAHhwAAAAAhkAeHhxAH4ACXB0AAMxNTd0AAIxIHQAAkEgdAAD44CAcQB+AAdxAH4ACnBzcQB+AAsAAAAAc3EAfgAPAAAAAQAAAAEAAAAAAAAAAAAAAAF1cQB+ABIAAAABAXh4cHQABU1IMjNTc3EAfgALAAAAAHNxAH4ADwAAAAAAAAAA//////////8AAAAAdXEAfgASAAAAAHh4cQB+ABd0AAExdAAW44OR44Kk44OXLOODh+ODquODkOODqnQACzE1NzMwLTg1SzAwcQB+AA50AAExdAAJMTYxNjkwMDAxdAABM3QABjIwMDgwNnQAATF0AAIgIHQAAjRWcHEAfgAfcHBzcQB+AAJxAH4AB3QAAHQAATJxAH4ACnNxAH4ACwAAAABzcQB+AA8AAAADAAAABgAAAAAAAAABAAAAAXVxAH4AEgAAAAEyeHhxAH4AK3B0AAMxNTd0AAIxIHQAAkEgcQB+ABdxAH4AB3EAfgAKcHNxAH4ACwAAAABxAH4AGXhwcQB+ABtzcQB+AAsAAAAAcQB+AB14cQB+ABdxAH4AH3QACeODnOODq+ODiHQACzAxNTUwLTA2MTZBcQB+ACx0AAEycQB+ACN0AAExdAAGMjAwODA2dAABM3QAAiAgdAACNFZwcQB+AB9wcHNxAH4AAnEAfgAHdAAAdAABM3EAfgAKc3EAfgALAAAAAHNxAH4ADwAAAAcAAAAOAAAAAAAAAAEAAAABdXEAfgASAAAAAiVOeHhxAH4APnB0AAMxNTd0AAIxIHQAAkEgcQB+ABdxAH4AB3EAfgAKcHNxAH4ACwAAAABxAH4AGXhwcQB+ABtzcQB+AAsAAAAAcQB+AB14cQB+ABdxAH4AH3QAK+OCpOODs+OCuOOCp+OCr+OCv+OCouODg+OCtyzjg5Xjg6Xjg7zjgqjjg6t0AAsxNTcxMC04NUswMHEAfgA/dAABM3EAfgAjdAABMXQABjIwMDgwNnQAATN0AAIgIHQAAjRWcHEAfgAfcHBzcQB+AAJxAH4AB3QAAHQAATNxAH4ACnNxAH4ACwAAAABzcQB+AA8AAAAEAAAACgAAAAAAAAACAAAAAXVxAH4AEgAAAAICHHh4cQB+AFFwdAADMTU3dAACMSB0AAJBIHEAfgAXcQB+AAdxAH4ACnBzcQB+AAsAAAAAcQB+ABl4cHEAfgAbc3EAfgALAAAAAHEAfgAdeHEAfgAXcQB+AB90ADrjgrDjg63jg6Hjg4Pjg4jjgrvjg4Pjg4gs44OV44Ol44O844Ko44Or44Kk44Oz44K444Kn44Kv44K/dAALMTU3MTYtNjVEVDBxAH4AUnQAATRxAH4AI3QAATF0AAYyMDA4MDZ0AAEzdAACICB0AAI0VnBxAH4AH3Bwc3EAfgACcQB+AAd0AAB0AAEzcQB+AApzcQB+AAsAAAAAc3EAfgAPAAAABAAAAAkAAAAAAAAAAQAAAAF1cQB+ABIAAAACAQ54eHEAfgBkcHQAAzE1N3QAAjEgdAACQSBxAH4AF3EAfgAHcQB+AApwc3EAfgALAAAAAHEAfgAZeHBxAH4AG3NxAH4ACwAAAABxAH4AHXhxAH4AF3EAfgAfdAAP44Kv44OD44K344On44OzdAALMDkzMjAtMDgwNjJxAH4AZXQAATVxAH4AI3QAATF0AAYyMDA4MDZ0AAEzdAACICB0AAI0VnBxAH4AH3Bw">
+<input type="hidden" id="translationIdx" name="sios010Form:translationIdx" value="0">
+<input type="submit" id="goSios001" name="sios010Form:goSios001" style="display:none">
+<input type="submit" id="goSios003" name="sios010Form:goSios003" style="display:none">
+<input type="submit" id="goSios020" name="sios010Form:goSios020" style="display:none">
+<input type="submit" id="goSios022" name="sios010Form:goSios022" style="display:none">
+<input type="submit" id="goSios030" name="sios010Form:goSios030" style="display:none">
+<input type="submit" id="goSios031" name="sios010Form:goSios031" style="display:none">
+<input type="submit" id="goSios032" name="sios010Form:goSios032" style="display:none">
+<input type="submit" id="goSios033" name="sios010Form:goSios033" style="display:none">
+<input type="submit" id="doRefresh" name="sios010Form:doRefresh" style="display:none">
+<input type="submit" id="doRefreshFromPartsSelect" name="sios010Form:doRefreshFromPartsSelect" style="display:none">
+<input type="hidden" id="clearCar" name="sios010Form:clearCar" value="">
+<input type="hidden" id="clearParts" name="sios010Form:clearParts" value="">
+<input type="hidden" id="notClearHozonInfo" name="sios010Form:notClearHozonInfo" value="">
+<input type="hidden" id="nextScript" name="sios010Form:nextScript" value="setNumCheck(false);">
+<input id="procId" type="hidden" value="init">
+<input type="hidden" id="webMode" name="sios010Form:webMode" value="">
+<input type="submit" id="doOpenSios050" name="sios010Form:doOpenSios050" style="display: none;">
+<input type="submit" id="doOpenSios023" name="sios010Form:doOpenSios023" style="display: none;">
+<input type="submit" id="doOpenSios024" name="sios010Form:doOpenSios024" style="display: none;">
+<input type="submit" id="doOpenSios001" name="sios010Form:doOpenSios001" style="display: none;">
+<input type="hidden" id="hacchuFlg" name="sios010Form:hacchuFlg" value="false">
+<!-- 2013/03/01 ADD START -->
+<input type="hidden" id="hidDispNo" name="sios010Form:hidDispNo" value="1">
+<!-- 2013/03/01 ADD END -->
+<!-- 2014/07/14 ADD START by k.wakui -->
+<input type="hidden" id="dealerFlg" name="sios010Form:dealerFlg" value="false">
+<!-- 2014/07/14 ADD END by k.wakui -->
+<!-- 2021/11/22 MDCR MODIFY START -->
+<iframe src="epcpr010.htm" name="epcpr010" style="border-width:0px;" height="0"></iframe>
+<!-- 2021/11/22 MDCR MODIFY END -->
+<input type="hidden" name="sios010Form/view/epc/sios010.html" value="sios010Form"></form>
+<form id="logoutForm" name="logoutForm" method="post" enctype="application/x-www-form-urlencoded" action="/sios/view/epc/sios010.html">
+<!-- 2013/03/01 ADD START -->
+<input type="hidden" id="hidDispNo" name="logoutForm:hidDispNo" value="1">
+<!-- 2013/03/01 ADD END -->
+<input type="submit" id="doLogout" name="logoutForm:doLogout" style="display:none">
+<!-- 2021/09/24 MDCR ADD START -->
+<input id="hidClassification" type="hidden">
+<!-- 2021/09/24 MDCR ADD END -->
+<input type="hidden" name="logoutForm/view/epc/sios010.html" value="logoutForm"></form>
+
+</body></html>
