@@ -419,12 +419,14 @@ def next_fig(current_handles, past_handles, car, car_model):
                 next_button.click()
                 time.sleep(1)
 
-                try:
-                    current_handle = driver.current_window_handle
-                    change_handle(current_handles)
-                    choose_fig(current_handle)
-                except:
-                    pass
+                # try:
+                #     current_handle = driver.current_window_handle
+                #     print("!!!!!!!!!!!!!!!!!!!!!!!")
+                #     change_handle(current_handles)
+                #     print("###############")
+                #     choose_fig(current_handle)
+                # except:
+                #     pass
     
     select_parts(current_handles, past_handles, car, car_model)
 
@@ -442,6 +444,7 @@ def select_parts(current_handles, past_handles, car, car_model):
             parts[i].click()
             try:
                 alert = driver.switch_to.alert
+                time.sleep(1)
                 alert.accept()
                 time.sleep(1)
                 parts[i].click()
