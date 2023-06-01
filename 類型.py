@@ -24,9 +24,12 @@ chrome_options.add_argument('--ignore-certificate-errors')
 
 sub_list = []
 car_model_list = []
+fig_no_list = []
+
 menu_handle=0
 genuinue_handle = 0
 fig_handle = 0
+part_handle = 0
 
 dialog_image_path = './img/dialog_img.png'
 ok_button_image_path = './img/ok_img.png'
@@ -43,6 +46,12 @@ driver.get("https://stn.suzuki.co.jp/sios/menu/SLMA_Menu.jsp")
 ##############################################################
 # 証明書選択のポップアップはサイトではなくos側から出されているものなので switch.to_alertでは対応できない
 ##############################################################
+def wait(driver_wait, xpath, element_wait):
+    wait = WebDriverWait(driver, driver_wait)
+    element = wait.until(EC.presence_of_all_elements_located((By.XPATH, f"{xpath}")))
+    return element
+
+
 def mouse_position():
     position = pyautogui.position()
     print("カーソルを一瞬だけ右上に持ってきてください。")
@@ -91,6 +100,7 @@ def change_handle(current_handles):
     # print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     diff_handles = list(set(window) - set(current_handles))
     driver.switch_to.window(diff_handles[0])
+    time.sleep(0.5)
     
     return window
 
@@ -242,6 +252,12 @@ def select_big_emo():
     big_illusts = driver.find_elements(By.XPATH, "//img[@class='emoGrpIrtSelect']")
     for big_illust in big_illusts:
         big_illust.click()
+        try:
+            time.sleep(0.1)
+            alert = driver.switch_to.alert
+            alert.accept()
+        except:
+            pass
     
     next_btn = driver.find_element(By.XPATH, "//input[@id='btnNext']")
     next_btn.click()
@@ -264,10 +280,27 @@ def select_small_emo():
                 break
             except:
                 next_button.click()
+                try:
+                    time.sleep(0.1)
+                    alert = driver.switch_to.alert
+                    alert.accept()
+                except:
+                    pass
 
         small_illusts = driver.find_elements(By.XPATH, "//img[@id='emoIlstNo']")
         for small_illust in small_illusts:
             small_illust.click()
+
+            fig_no = driver.find_element(By.XPATH, "//input[@id='dispFigNo']")
+            global fig_no_list
+            fig_no_list.append(fig_no.get_attribute('value'))
+            try:
+                time.sleep(0.1)
+                alert = driver.switch_to.alert
+                alert.accept()
+            except:
+                pass
+
         first_flag = 1
     
     next_btn = driver.find_element(By.XPATH, "//input[@id='btnNext']")
@@ -286,13 +319,55 @@ def choose_handle(past_handles):
     return handles
 
 
+def get_car_detail(current_handles):
+    detail_btn = driver.find_element(By.XPATH, "//input[@id='btn_detail']")
+    detail_btn.click()
+    
+    detail_iframe = driver.find_element(By.XPATH, "//iframe[@id='epc_floating_window_content_1']")
+    driver.switch_to.frame(detail_iframe)
+
+    detail_html = driver.page_source
+    print(detail_html)
+    close_btn = driver.find_element(By.XPATH, "//input[@id='closeWin']")
+    close_btn.click()
+    time.sleep(0.5)
+
+    driver.switch_to.parent_frame()
+
+    return detail_html
+
+
+
+def get_tokki(current_handles):
+    time.sleep(1)
+    tokki_btns = driver.find_elements(By.XPATH, "//img[@id='tokkiIcon']")
+
+    for tokki_btn in tokki_btns:
+        tokki_btn.click()
+        change_handle(current_handles)
+        wait(10, "//input[@class='cmButton5']",10)
+        tokki_html = driver.page_source
+        close_btn = driver.find_element(By.XPATH, "//input[@class='cmButton5']")
+        close_btn.click()
+        driver.switch_to.window(genuinue_handle)
+        time.sleep(0.5)
+
+
 def get_part_no(current_handle ,car ,car_model ,count):
     driver.switch_to.window(genuinue_handle)
     source = driver.page_source
-    
+
+    get_car_detail(driver.window_handles)
+    get_tokki(driver.window_handles)
+
+    fig_nos = driver.find_elements(By.XPATH, "//span[@id='figNo']")
+    fig_no = fig_nos[-1]
+    fig_no_list.remove(fig_no.text)
+
     del_btn = driver.find_element(By.XPATH, "//input[@id='btn_all_delete']")
     del_btn.click()
 
+    time.sleep(1)
     alert = driver.switch_to.alert
     alert.accept()
 
@@ -329,10 +404,11 @@ def error_process():
     time.sleep(1)
     page_source = driver.page_source
     soup = BeautifulSoup(page_source, "html.parser")
-    table = soup.find("table", id="tblSios010")
-    last_row = table.find_all("tr")[-1]
-    partno_span = last_row.find("span", id="figNo")
-    text = partno_span.text
+    # table = soup.find("table", id="tblSios010")
+    # last_row = table.find_all("tr")[-1]
+    # partno_span = last_row.find("span", id="figNo")
+    # text = partno_span.text
+    text = 1
     
     current_handles = driver.window_handles
     search_btn = driver.find_element(By.XPATH, "//input[@id='btn_search']")
@@ -351,39 +427,43 @@ def re_input_fig(flag_text, current_handles):
     click_flag = False
     fig_count = 100
 
-    for row in rows:
-        tds = row.find_elements(By.TAG_NAME, "td")
-        text = tds[0].text
-        if text == flag_text:
-            click_flag = True
-            row.click()
-            fig_count = 1
-            continue
-        
-        if click_flag and fig_count <= 29:
-            fig_count += 1
-            row.click()
-        
-        if fig_count == 31:
-            last_selected_fig = text
+    for i in range(30):
+        td = driver.find_element(By.XPATH, f"//span[text()='{fig_no_list[i]}']")
+        td.click()
+
         
     current_handles = driver.window_handles
     ok_fig_btn = driver.find_element(By.XPATH, "//input[@id='btnSentaku']")
     ok_fig_btn.click()
+    time.sleep(2)
     
-    change_handle(current_handles)
+    try:
+        driver.switch_to.window(part_handle)
+    except:
+        change_handle(current_handles)
     time.sleep(1)
 
 
+
+def choose_fig(fig_handle):
+    next_btn = driver.find_element(By.XPATH, "//input[@id='btnTugi']")
+    next_btn.click()
+    driver.switch_to.window(fig_handle)
 
 
 def select_parts(current_handles, past_handles, car, car_model):
     current_handles.remove(menu_handle)
     current_handles.remove(genuinue_handle)
     driver.switch_to.window(current_handles[0])
+    new_current_handles = driver.window_handles
     
     first_flag = 0
     btn_count = 1
+
+    global part_handle
+    part_handle = driver.current_window_handle
+
+    error_process()
     
     while True:
         WebDriverWait(driver, 10).until(
@@ -392,18 +472,31 @@ def select_parts(current_handles, past_handles, car, car_model):
         next_button = driver.find_element(By.ID, "btnNextFig")
         if first_flag != 0:
             try:
-                driver.find_element_by_xpath('//*[@disabled="disabled" and @id="btnNextFig"]')
-                break
-            except:
-                next_button.click()
+                img_btn = driver.find_element_by_xpath('//*[@id="btnNextImg" and not(@disabled)]')
+                img_btn.click()
                 time.sleep(1)
-                
-
+            except:
+                try:
+                    driver.find_element_by_xpath('//*[@disabled="disabled" and @id="btnNextFig"]')
+                    if len(fig_no_list) == 0:
+                        break
+                    else:
+                        error_process()
+                except:
+                    next_button.click()
+                    time.sleep(1)
+                    current_handle = driver.current_window_handle
+                    try:
+                        change_handle(new_current_handles)
+                        choose_fig(current_handle)
+                    except:
+                        pass
 
         parts_list = driver.find_elements(By.XPATH, "//tr[@id='listRow']")
 
         for i in range(len(parts_list)):
             try:
+                time.sleep(0.5)
                 parts = driver.find_elements(By.XPATH, "//tr[@id='listRow']")
             except:
                 error_process()
@@ -419,14 +512,10 @@ def select_parts(current_handles, past_handles, car, car_model):
             except:
                 pass
                 
-        #     for part in parts:
-        #         if parts_list[i].text == part.text:
-        #             part.click()
             new_handles = choose_handle(past_handles)
-            # new_handles = driver.window_handles
             try:
                 choose_integra_parts(new_handles[1], current_handles[0])
-                time.sleep(2)
+                time.sleep(1)
             except:
                 pass
         
@@ -488,7 +577,8 @@ def get_car_model():
             return False, None
     else:
         return False, None
-    
+
+
 def get_ruikata():
     time.sleep(1)
     sub_list = []
@@ -582,7 +672,6 @@ def make_list(current_handles, ruibet, katasiki):
 
             tekiyouCd = driver.find_element(By.XPATH, f'//tr[contains(td/span[@id="kisyuCd"], "{car_model[7]}") and td/span[@id="tekiyouSpec" and contains(text(), "{car_model[0]}")]]')
             tekiyouCd.click()
-
 
             next_button4 = driver.find_element(By.XPATH, "//input[@class='cmButton5']")
             next_button4.click()
@@ -715,7 +804,8 @@ def main():
             send_ruikata(rui_kata[1], rui_kata[0])
             time.sleep(1)
             make_list(current_handles, rui_kata[1], rui_kata[0])
-        except:
+        except Exception as e:
+            print(e)
             time.sleep(1)
             menu_logout()
 
